@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LeadingResponse.Views.MainPage">
+
+    <NavigationPage.TitleView>
+        <Image Source="{Binding Image}" HorizontalOptions="Center" VerticalOptions="Center" Margin="-20,0,0,0"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid x:Name="mainLayout">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Margin="10,10,5,0" Padding="0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Print Tracking" FontSize="25" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="#124557" FontAttributes="Bold" />
+                    <ImageButton Source="settingGrayIcon.png" x:Name="fileImage" Aspect="AspectFit" HeightRequest="18" WidthRequest="18" Clicked="SidebarOpen" BackgroundColor="transparent" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="20" Grid.Row="2" HorizontalOptions="FillAndExpand" Padding="0,30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Operator" FontSize="21" TextColor="#4e4e4f" FontAttributes="Bold"/>
+                    <Frame Grid.Column="1" BackgroundColor="#eeeeee" Padding="5" Margin="0,-5,0,15">
+                        <Label Text="{Binding BadgeId}" x:Name="badgeId" FontSize="21" TextColor="#4e4e4f"/>
+                    </Frame>
+                    <Label Text="Equipment ID" Grid.Row="1" FontSize="21" TextColor="#4e4e4f" FontAttributes="Bold"/>
+                    <Frame Grid.Column="1" Grid.Row="1" BackgroundColor="#eeeeee" Padding="5" Margin="0,-5,0,15">
+                        <Label Text="{Binding EquipmentId}" x:Name="eqipmentId" FontSize="21" TextColor="#4e4e4f"/>
+                    </Frame>
+                    <Label Text="Working Queue" Grid.Row="2" FontSize="21" TextColor="#4e4e4f" FontAttributes="Bold"/>
+                    <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="#eeeeee" Padding="5" Margin="0,-5,0,15">
+                        <Label Text="{Binding WorkOrderId}" x:Name="workOrderId" FontSize="21" TextColor="#4e4e4f"/>
+                    </Frame>
+
+                </Grid>
+                <StackLayout Grid.Row="3" Margin="30,10" Padding="0,40">
+                    <Button Text="Scan Operator Badge" CornerRadius="25" FontSize="23" BackgroundColor="#124557"
+                        TextColor="#fff" Clicked="OnScanOperator" x:Name="scanOperator" IsVisible="true" TextTransform="None" CharacterSpacing="1" FontAttributes="Bold" Padding="15"/>
+                    <Button Text="Scan Equipment ID" CornerRadius="25" FontSize="23" BackgroundColor="#124557"
+                        TextColor="#fff" Clicked="OnScanEquipment" x:Name="scanEquipment" IsVisible="false" TextTransform="None" CharacterSpacing="1" FontAttributes="Bold" Padding="15"/>
+                    <Button Text="Scan Work Order ID" CornerRadius="25" FontSize="23" BackgroundColor="#124557"
+                        TextColor="#fff" x:Name="scanWorkOrder" IsVisible="false" Clicked="OnScanWorkOrder" TextTransform="None" CharacterSpacing="1" FontAttributes="Bold" Padding="15"/>
+                </StackLayout>
+
+                <StackLayout Margin="30,10" IsVisible="false" x:Name="buttonStack" Grid.Row="3" Padding="0,40">
+                    <Frame BorderColor="#124557" Padding="5">
+                        <Label Text="{Binding ScannedData}" x:Name="Scanneddata" FontSize="23" TextColor="#4e4e4f" FontAttributes="Bold"/>
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Margin="30,10 " Padding="0,40" Grid.Row="3" x:Name="workOrderSample" IsVisible="false">
+                    <Label Text="{Binding Sample}" x:Name="sampleNumber" FontSize="23" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold"/>
+                    <StackLayout Margin="15,25" x:Name="messageLabel" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="false">
+                        <Label Text="{Binding Message}" FontSize="25" HorizontalTextAlignment="Center" x:Name="msgResponse"/>
+                    </StackLayout>
+                    <StackLayout Margin="0,25" x:Name="sampleIncluded" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="false">
+                        <Label Text="Sample Included" TextColor="#124557" FontSize="21" TextTransform="Uppercase" HorizontalTextAlignment="Center"/>
+                        <Grid ColumnDefinitions="auto,auto" Margin="0,10">
+                            <Button Text="Yes" BackgroundColor="Green" TextColor="#fff" FontSize="23" CornerRadius="25" TextTransform="None" Clicked="SampleIncluded" FontAttributes="Bold" Padding="15"/>
+                            <Button Text="No" BackgroundColor="Red" TextColor="#fff" FontSize="23" CornerRadius="25" TextTransform="None" Clicked="SampleNotIncluded" Grid.Column="1" FontAttributes="Bold" Padding="15"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout Margin="0,20" x:Name="newQueue" IsVisible="false">
+                        <Label Text="Move To New Queue" FontSize="21" TextColor="#124557" TextTransform="None" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Margin="0,0,0,10"/>
+                        <Button Text="Scan Queue Locator" CornerRadius="25" FontSize="23"
+                                TextTransform="None" TextColor="#fff" BackgroundColor="#124557" x:Name="scanQueueLocator" IsVisible="true" Clicked="OnScanQueue" CharacterSpacing="1" FontAttributes="Bold" Padding="15"/>
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#414343" IsVisible="false" x:Name="sidebar">
+                <StackLayout Padding="15" BackgroundColor="#fff" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="270">
+                    <Label Text="Edit Login Info" FontSize="25" FontAttributes="Bold" TextColor="#18485B"/>
+                    <StackLayout Margin="0,15" Spacing="30">
+                        <Button Text="Change Operator" BackgroundColor="#124557" CornerRadius="25" FontSize="23"
+                            TextColor="#fff" Clicked="OnOperatorChange" TextTransform="None" CharacterSpacing="1" FontAttributes="Bold" Padding="15"/>
+                        <Button Text="Change Equipment" BackgroundColor="#124557" CornerRadius="25" FontSize="23"
+                            TextColor="#fff" Clicked="OnEquipmentChange" TextTransform="None" CharacterSpacing="1" FontAttributes="Bold" Padding="15"/>
+                        <Button Text="Exit" BackgroundColor="#124557" CornerRadius="25" FontSize="23"
+                            TextColor="#fff" Clicked="ExitButton" TextTransform="None" CharacterSpacing="1" FontAttributes="Bold" Padding="15"/>
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>
